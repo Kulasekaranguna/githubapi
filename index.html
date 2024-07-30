@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Profile API</title>
+   
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.form{
+   margin: 30px;
+   width: 40%;
+}
+.form input{
+    width: 60%;
+    height: 40px;
+    padding: 20px;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid black;
+}
+#btn{
+    width: 37%;
+    height: 40px;
+    border: 5px solid black;
+    background: #000;
+    color: white;
+    border-radius: 0 10px 10px 0;
+}
+.card{
+    width: 40%;
+    border: 1px solid black;
+    padding: 10px;
+    display: none;
+    border-radius: 7px;
+    background: #f7f7f7;
+    box-shadow: 0 0 12px 5px rgba(128, 128, 128, 0.384);
+}
+p{
+    margin: 20px;
+}
+.top{
+    display: flex;
+    justify-content: space-between;
+}
+.profile{
+    display: flex;
+}
+.profile img{
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+}
+#vusername{
+    margin-top: -15px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.582);
+}
+
+@media (max-width: 600px) {
+    .form {
+        width: 90%;
+    }
+    .form input {
+        width: 70%;
+    }
+    #btn {
+        width: 25%;
+    }
+    .card {
+        width: 90%;
+    }
+    .profile img {
+        width: 100px;
+        height: 100px;
+    }
+}
+@media (min-width: 601px) and (max-width: 768px) {
+    .form {
+        width: 80%;
+    }
+    .form input {
+        width: 65%;
+    }
+    #btn {
+        width: 30%;
+    }
+    .card {
+        width: 80%;
+    }
+    .profile img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .form {
+        width: 60%;
+    }
+    .form input {
+        width: 60%;
+    }
+    #btn {
+        width: 35%;
+    }
+    .card {
+        width: 60%;
+    }
+    .profile img {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+
+
+    </style>
+
+</head>
+<body>
+
+    <form action="" class="form" onsubmit="search(event)">
+        <input type="text" name="username" id="username">
+        <button id="btn" type="submit">Search Github</button>
+    </form>
+
+    <div class="card" >
+        <div class="top">
+            <div class="profile">
+                <div class="profilePic">
+                          <img src="" alt="profile" id="avatar">
+                </div>
+                <div>
+                <p id="name"></p>
+                <p id="vusername"></p>
+                <p id="bio"></p>
+                </div>
+
+            </div>
+            <div>
+            <p id="location"></p>
+            <p id="twitter"></p>
+            <p id="following"></p>
+            <p id="followers"></p>
+            </div>
+
+        </div>
+
+        <div class="under">
+            <p id="rep"></p>
+            <p id="github"></p>
+            <p id="blog"></p>
+            <p id="user"></p>
+
+        </div>
+    </div>
+
+    <script>
+         document.addEventListener("DOMContentLoaded", () => {
+            window.search = function search(event){
+
+             event.preventDefault();
+             
+        const card = document.querySelector(".card");
+        const usernameInput = document.getElementById("username").value;
+        const btn = document.getElementById("btn");
+        const avatar = document.getElementById("avatar");
+        const name = document.getElementById("name");
+        const vusername = document.getElementById("vusername");
+        const bio = document.getElementById("bio");
+        const location = document.getElementById("location");
+        const twitter = document.getElementById("twitter");
+        const following = document.getElementById("following");
+        const followers = document.getElementById("followers");
+        const rep = document.getElementById("rep");
+        const github = document.getElementById("github");
+        const blog = document.getElementById("blog");
+        const user = document.getElementById("user");
+
+       fetch(`https://api.github.com/users/${usernameInput}`)
+       .then((res) => {
+        return res.json() })
+       .then( data =>{
+        card.style.display = 'block';
+             avatar.src = data.avatar_url;
+             name.innerHTML = data.name;
+             vusername.innerHTML = ` @ ${data.login}`;
+             bio.innerHTML = data.bio;
+             location.innerHTML = `<box-icon type='solid' name='location-plus'></box-icon> ${data.location}`;
+             twitter.innerHTML = `<box-icon type='logo' name='twitter'></box-icon> ${data.twitter_username}`;
+             following.innerHTML =` <box-icon name='user-plus'></box-icon> ${data.following}`;
+             followers.innerHTML = `<box-icon type='solid' name='user-check'></box-icon> ${data.followers}`;
+             rep.innerHTML = `<box-icon name='git-repo-forked' ></box-icon> ${data.public_repos}`;
+             github.innerHTML = `<box-icon type='logo' name='github'></box-icon> ${data.url}`;
+             blog.innerHTML = `<box-icon name='time' type='solid' ></box-icon> ${data.created_at}`;
+             user.innerHTML = `<box-icon type='solid' name='user-circle'></box-icon> ${data.type}`;
+            })
+
+
+
+
+
+
+
+
+    
+    }
+})
+
+       
+
+    </script>
+</body>
+</html>
